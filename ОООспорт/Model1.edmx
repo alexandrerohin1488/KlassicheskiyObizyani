@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище user05Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CostOrder" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SumDiscount" Type="int" />
+          <Property Name="DateOrder" Type="date" />
+          <Property Name="Code" Type="int" />
+          <Property Name="DateDelivery" Type="date" />
+          <Property Name="PointIssueIds" Type="int" />
+          <Property Name="StatusIds" Type="int" />
+        </EntityType>
+        <EntityType Name="PointIssue">
+          <Key>
+            <PropertyRef Name="PointIssueID" />
+          </Key>
+          <Property Name="PointIssueID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NamePoint" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Producer">
+          <Key>
+            <PropertyRef Name="ProducerID" />
+          </Key>
+          <Property Name="ProducerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameProducer" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameProduct" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProducerIds" Type="int" />
+          <Property Name="Cost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="int" />
+          <Property Name="CountProduct" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductOrder">
+          <Key>
+            <PropertyRef Name="ProductIds" />
+            <PropertyRef Name="OrderIds" />
+          </Key>
+          <Property Name="ProductIds" Type="int" Nullable="false" />
+          <Property Name="OrderIds" Type="int" Nullable="false" />
+          <Property Name="CountProductOrder" Type="int" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameStatus" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Order_PointIssue">
+          <End Role="PointIssue" Type="Self.PointIssue" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PointIssue">
+              <PropertyRef Name="PointIssueID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PointIssueIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Producer1">
+          <End Role="Producer" Type="Self.Producer" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producer">
+              <PropertyRef Name="ProducerID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProducerIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_Order1">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="OrderIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_Product1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="ProductIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище user05ModelContainer">
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PointIssue" EntityType="Self.PointIssue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producer" EntityType="Self.Producer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductOrder" EntityType="Self.ProductOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Order_PointIssue" Association="Self.FK_Order_PointIssue">
+            <End Role="PointIssue" EntitySet="PointIssue" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Producer1" Association="Self.FK_Product_Producer1">
+            <End Role="Producer" EntitySet="Producer" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Order1" Association="Self.FK_ProductOrder_Order1">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Product1" Association="Self.FK_ProductOrder_Product1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="user05Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CostOrder" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SumDiscount" Type="Int32" />
+          <Property Name="DateOrder" Type="DateTime" Precision="0" />
+          <Property Name="Code" Type="Int32" />
+          <Property Name="DateDelivery" Type="DateTime" Precision="0" />
+          <Property Name="PointIssueIds" Type="Int32" />
+          <Property Name="StatusIds" Type="Int32" />
+          <NavigationProperty Name="PointIssue" Relationship="Self.FK_Order_PointIssue" FromRole="Order" ToRole="PointIssue" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Order_Status" FromRole="Order" ToRole="Status" />
+          <NavigationProperty Name="ProductOrder" Relationship="Self.FK_ProductOrder_Order1" FromRole="Order" ToRole="ProductOrder" />
+        </EntityType>
+        <EntityType Name="PointIssue">
+          <Key>
+            <PropertyRef Name="PointIssueID" />
+          </Key>
+          <Property Name="PointIssueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NamePoint" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_PointIssue" FromRole="PointIssue" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Producer">
+          <Key>
+            <PropertyRef Name="ProducerID" />
+          </Key>
+          <Property Name="ProducerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameProducer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Producer1" FromRole="Producer" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImagePath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameProduct" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProducerIds" Type="Int32" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="Int32" />
+          <Property Name="CountProduct" Type="Int32" />
+          <NavigationProperty Name="Producer" Relationship="Self.FK_Product_Producer1" FromRole="Product" ToRole="Producer" />
+          <NavigationProperty Name="ProductOrder" Relationship="Self.FK_ProductOrder_Product1" FromRole="Product" ToRole="ProductOrder" />
+        </EntityType>
+        <EntityType Name="ProductOrder">
+          <Key>
+            <PropertyRef Name="ProductIds" />
+            <PropertyRef Name="OrderIds" />
+          </Key>
+          <Property Name="ProductIds" Type="Int32" Nullable="false" />
+          <Property Name="OrderIds" Type="Int32" Nullable="false" />
+          <Property Name="CountProductOrder" Type="Int32" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_ProductOrder_Order1" FromRole="ProductOrder" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_ProductOrder_Product1" FromRole="ProductOrder" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_Status" FromRole="Status" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Order_PointIssue">
+          <End Role="PointIssue" Type="Self.PointIssue" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PointIssue">
+              <PropertyRef Name="PointIssueID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PointIssueIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_Order1">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="OrderIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Producer1">
+          <End Role="Producer" Type="Self.Producer" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producer">
+              <PropertyRef Name="ProducerID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProducerIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_Product1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="ProductIds" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="user05Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Order" EntityType="Self.Order" />
+          <EntitySet Name="PointIssue" EntityType="Self.PointIssue" />
+          <EntitySet Name="Producer" EntityType="Self.Producer" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="ProductOrder" EntityType="Self.ProductOrder" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <AssociationSet Name="FK_Order_PointIssue" Association="Self.FK_Order_PointIssue">
+            <End Role="PointIssue" EntitySet="PointIssue" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Order1" Association="Self.FK_ProductOrder_Order1">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Producer1" Association="Self.FK_Product_Producer1">
+            <End Role="Producer" EntitySet="Producer" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Product1" Association="Self.FK_ProductOrder_Product1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище user05ModelContainer" CdmEntityContainer="user05Entities">
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="user05Model.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CostOrder" ColumnName="CostOrder" />
+                <ScalarProperty Name="SumDiscount" ColumnName="SumDiscount" />
+                <ScalarProperty Name="DateOrder" ColumnName="DateOrder" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="DateDelivery" ColumnName="DateDelivery" />
+                <ScalarProperty Name="PointIssueIds" ColumnName="PointIssueIds" />
+                <ScalarProperty Name="StatusIds" ColumnName="StatusIds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PointIssue">
+            <EntityTypeMapping TypeName="user05Model.PointIssue">
+              <MappingFragment StoreEntitySet="PointIssue">
+                <ScalarProperty Name="PointIssueID" ColumnName="PointIssueID" />
+                <ScalarProperty Name="NamePoint" ColumnName="NamePoint" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producer">
+            <EntityTypeMapping TypeName="user05Model.Producer">
+              <MappingFragment StoreEntitySet="Producer">
+                <ScalarProperty Name="ProducerID" ColumnName="ProducerID" />
+                <ScalarProperty Name="NameProducer" ColumnName="NameProducer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="user05Model.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="NameProduct" ColumnName="NameProduct" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProducerIds" ColumnName="ProducerIds" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="CountProduct" ColumnName="CountProduct" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductOrder">
+            <EntityTypeMapping TypeName="user05Model.ProductOrder">
+              <MappingFragment StoreEntitySet="ProductOrder">
+                <ScalarProperty Name="ProductIds" ColumnName="ProductIds" />
+                <ScalarProperty Name="OrderIds" ColumnName="OrderIds" />
+                <ScalarProperty Name="CountProductOrder" ColumnName="CountProductOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="user05Model.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="NameStatus" ColumnName="NameStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

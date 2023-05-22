@@ -1,0 +1,37 @@
+﻿<Window x:Class="ОООспорт.MainMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ОООспорт"
+        mc:Ignorable="d" MinHeight="200" MinWidth="300"
+        Title="MainMenu" Height="450" Width="800">
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" Margin="0,130,0,0" TextWrapping="Wrap" Text="Список товаров" VerticalAlignment="Top"/>
+        <Button Name="ShowOrderBtn" Content="Button" HorizontalAlignment="Left" Margin="115,228,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.697,0.627"/>
+        <TextBox Name="SearchProductTxb" SelectionChanged="SearchProductTxb_SelectionChanged" HorizontalAlignment="Left" Margin="262,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="SearchProductTxb_TextChanged"/>
+        <DataGrid Name="ProductsDataGrid" AutoGenerateColumns="False"
+                  IsReadOnly="True" ColumnWidth="*" Margin="0,332,0,-112">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Изображение">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding PathImg}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Наименование товара"
+                                Binding="{Binding NameProduct}"/>
+                <DataGridTextColumn Header="Описание товара"
+                                Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="Наименование поставщика"
+                                Binding="{Binding Producer.NameProducer}"/>
+                <DataGridTextColumn Header="Цена товара"
+                                Binding="{Binding Cost}"/>
+                <DataGridTextColumn Header="Скидка"
+                                Binding="{Binding Discount}"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+    </Grid>
+</Window>
